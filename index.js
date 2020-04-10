@@ -7,7 +7,7 @@ const dc = new DynamoDB.DocumentClient()
 ddb.putItem = promisify(ddb.putItem)
 dc.query = promisify(dc.query)
 
-const eventstore = config => {
+const eventstore = (config = {}) => {
   const tableName = config.tableName || process.env.EVENTSTORE_TABLE || 'eventstore-events'
 
   return {
