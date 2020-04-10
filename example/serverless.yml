@@ -1,0 +1,43 @@
+service: dynamodb-eventstore-example
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-west-1
+  environment:
+    SERVERLESS_REGION: ${opt:region, self:provider.region}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: arn:aws:dynamodb:${self:provider.environment.SERVERLESS_REGION}:*:*
+  package:
+    include:
+      - ../index.js
+
+functions:
+  getEvents:
+    handler: handler.get
+  putEvents:
+    handler: handler.put
+
+resources:
+  Resources:
+    ExampleEventsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: example-events-table
+        AttributeDefinitions:
+          - AttributeName: aggregateId
+            AttributeType: S
+          - AttributeName: timestamp
+            AttributeType: S
+        KeySchema:
+          - AttributeName: aggregateId
+            KeyType: HASH
+          - AttributeName: timestamp
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+

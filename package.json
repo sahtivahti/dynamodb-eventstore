@@ -1,0 +1,16 @@
+{
+  "name": "@sahtivahti/dynamodb-eventstore",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "lint": "standard"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.656.0",
+    "standard": "^14.3.3"
+  }
+}
